@@ -1,0 +1,16 @@
+---
+#Ingress
+deploy_ingress: True
+ingress_namespace: contour-system
+ingress_manifest: https://projectcontour.io/quickstart/contour.yaml
+
+#Knative 
+deploy_knative: False
+knative_version: v0.16.0
+knative_eventing_version: v0.16.0
+knative_serving_version: v0.16.0
+
+#Tektoncd
+deploy_tekton: False
+tektoncd_pipelines_version: v0.11.3
+tektoncd_triggers_version: v0.4.0

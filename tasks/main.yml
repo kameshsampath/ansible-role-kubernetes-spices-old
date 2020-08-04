@@ -1,0 +1,23 @@
+---
+###################################
+# Nginx Ingress
+###################################
+- name: Deploy Ingress
+  include_tasks: ingress.yml
+  when: deploy_ingress 
+
+######################################
+## Knative Serving and Eventing
+######################################
+- name: Deploy Knative Serving and Eventing
+  include_tasks: knative.yml
+  when: deploy_knative 
+
+###################################
+# Tektoncd 
+###################################
+
+- name: Deploy Tektoncd Pipelines and Triggers
+  include_tasks: tektoncd.yml
+  when: deploy_tektoncd
+  
