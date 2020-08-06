@@ -44,7 +44,7 @@ Role Variables
 | ingress_namespace | The namespace for Contour Ingress | contour-system |
 | ingress_namespace | The namespace for Contour Ingress | contour-system |
 | ingress_manifest  | The Contour Ingress manifest file  | https://projectcontour.io/quickstart/contour.yaml |
-| deploy_tekton | Deploy Tektoncd | False |
+| deploy_tektoncd | Deploy Tektoncd | False |
 | tektoncd_pipelines_version | Tektoncd Pipelines Version | v0.11.3 |
 | tektoncd_triggers_version | Tektoncd Triggers Version | v0.4.0 |
 

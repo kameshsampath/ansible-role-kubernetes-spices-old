@@ -11,6 +11,6 @@ knative_eventing_version: v0.16.0
 knative_serving_version: v0.16.0
 
 #Tektoncd
-deploy_tekton: False
+deploy_tektoncd: False
 tektoncd_pipelines_version: v0.11.3
 tektoncd_triggers_version: v0.4.0
