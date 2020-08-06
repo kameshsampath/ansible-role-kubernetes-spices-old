@@ -13,4 +13,3 @@
 
   roles:
     - role: kameshsampath.minikube
-    - role: kameshsampath.k8s_app_spices

@@ -5,7 +5,7 @@
 
   collections:
   - community.kubernetes
-    
+
   vars:
    ansible_python_interpreter: '{{ ansible_playbook_python }}'
    minikube_profile_name: molecule-knative
@@ -22,7 +22,7 @@
 
    - name: Create Test namespace
      community.kubernetes.k8s:
-      definition:      
+      definition:
         kind: Namespace
         metadata:
           name: molecule-knative-test
@@ -30,6 +30,6 @@
 
    - import_tasks: serving_verify.yml
    - import_tasks: eventing_verify.yml
-   
+
 - name: Destroy test resources
   import_playbook: destroy.yml

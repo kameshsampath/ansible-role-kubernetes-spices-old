@@ -1,28 +1,29 @@
-- set_fact:
+- name: Set Tektoncd manifest dir
+  set_fact:
     tektoncd_manifests_dir: "/tmp/tektoncd"
 
 - name: Force Deployment of Ingress
   set_fact:
     deploy_ingress: True
   when: not deploy_ingress
-    
+
 - name: Make temp directory for Tektoncd Manifests
   file:
-    path: "{{tektoncd_manifests_dir}}"
+    path: "{{ tektoncd_manifests_dir }}"
     state: directory
 
 - name: Get Tektoncd Manifests
   get_url:
-    dest: "{{tektoncd_manifests_dir}}/{{item.name}}" 
-    url: "{{item.manifest_url}}"
+    dest: "{{ tektoncd_manifests_dir }}/{{ item.name }}"
+    url: "{{ item.manifest_url }}"
   delegate_to: localhost
   loop:
     - name: pipelines.yaml
-      manifest_url: "https://storage.googleapis.com/tekton-releases/pipeline/previous/{{tektoncd_pipelines_version}}/release.yaml"
+      manifest_url: "https://storage.googleapis.com/tekton-releases/pipeline/previous/{{ tektoncd_pipelines_version }}/release.yaml"
     - name: triggers.yaml
-      manifest_url: "https://github.com/tektoncd/triggers/releases/download/{{tektoncd_triggers_version}}/release.yaml"
+      manifest_url: "https://github.com/tektoncd/triggers/releases/download/{{ tektoncd_triggers_version }}/release.yaml"
   loop_control:
-     label: "{{item.name}}"
+     label: "{{ item.name }}"
 
 - name: Deploy Tektoncd Pipelines and Triggers
   community.kubernetes.k8s:
@@ -30,13 +31,13 @@
     state: present
   loop:
     - name: pipelines.yaml
-      manifest: "{{ lookup('file',tektoncd_manifests_dir + '/pipelines.yaml')}}"
+      manifest: "{{ lookup('file',tektoncd_manifests_dir + '/pipelines.yaml') }}"
     - name: triggers.yaml
-      manifest: "{{ lookup('file',tektoncd_manifests_dir + '/triggers.yaml')}}"
+      manifest: "{{ lookup('file',tektoncd_manifests_dir + '/triggers.yaml') }}"
   loop_control:
-      label: "{{item.name}}"
+      label: "{{ item.name }}"
   changed_when: False
-  register: tektoncd_deploy 
+  register: tektoncd_deploy
 
 - name: "Wait for Tektoncd Pipelines::controller"
   include_tasks: utils/k8s_deployment_status.yml

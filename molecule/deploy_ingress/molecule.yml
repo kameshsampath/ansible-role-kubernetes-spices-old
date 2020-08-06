@@ -12,7 +12,7 @@ driver:
 lint: |
   set -e
   yamllint .
-# TODO #1 need fix  - not working OOTB  ansible-lint
+  ansible-lint
 platforms:
   - name: molecule-kind-ingress
 provisioner:
@@ -20,5 +20,4 @@ provisioner:
 verifier:
   name: ansible
   playbooks:
-    converge: ${MOLECULE_PLAYBOOK:-converge.yml}   
-  
+    converge: ${MOLECULE_PLAYBOOK:-converge.yml}

@@ -1,7 +1,7 @@
 Ansible role for Spicing Kubernetes Cluster with Apps
 =====================================================
 
-Ansible to create [KinD](https://kind.sigs.k8s.io) cluster. 
+Ansible to create [KinD](https://kind.sigs.k8s.io)  or [minikube](https://minikube.sigs.k8s.io) cluster. 
 
 The role can also be used to install and configure:
 
@@ -77,6 +77,7 @@ Requirements
 ```shell
 pip3 install \
   -r https://raw.githubusercontent.com/kameshsampath/kameshsampath.k8s_app_spices/master/molecule/requirements.txt
+ansible-galaxy role install  -r https://raw.githubusercontent.com/kameshsampath/kameshsampath.k8s_app_spices/master/molecule/requirements.txt
 ```
 
 All tests are built using [molecule](https://molecule.readthedocs.io/en/latest/index.html) with following scenarios:

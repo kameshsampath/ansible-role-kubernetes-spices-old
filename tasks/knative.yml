@@ -1,28 +1,29 @@
 ---
-- set_fact:
-    knative_manifests_dir: "/tmp/knative/{{knative_version}}"
+- name: Set Knative manifests dir
+  set_fact:
+    knative_manifests_dir: "/tmp/knative/{{ knative_version }}"
 
 - name: Force Deployment of Ingress
   set_fact:
     deploy_ingress: True
   when: not deploy_ingress
-    
+
 - name: Make temp directory for Knative Manifests
   file:
-    path: "{{knative_manifests_dir}}"
+    path: "{{ knative_manifests_dir }}"
     state: directory
 
 - name: Get Knative Manifests
   get_url:
-      dest: "{{knative_manifests_dir}}" 
-      url: "{{item}}"
+      dest: "{{ knative_manifests_dir }}"
+      url: "{{ item }}"
   delegate_to: localhost
   with_items:
-    - "https://github.com/knative/serving/releases/download/{{knative_serving_version}}/serving-crds.yaml"
-    - "https://github.com/knative/serving/releases/download/{{knative_serving_version}}/serving-core.yaml"
-    - "https://github.com/knative/eventing/releases/download/{{knative_eventing_version}}/eventing-crds.yaml"
-    - "https://github.com/knative/eventing/releases/download/{{knative_eventing_version}}/eventing.yaml"
-    - "https://github.com/knative/net-kourier/releases/download/{{knative_version}}/kourier.yaml"
+    - "https://github.com/knative/serving/releases/download/{{ knative_serving_version }}/serving-crds.yaml"
+    - "https://github.com/knative/serving/releases/download/{{ knative_serving_version }}/serving-core.yaml"
+    - "https://github.com/knative/eventing/releases/download/{{ knative_eventing_version }}/eventing-crds.yaml"
+    - "https://github.com/knative/eventing/releases/download/{{ knative_eventing_version }}/eventing.yaml"
+    - "https://github.com/knative/net-kourier/releases/download/{{ knative_version }}/kourier.yaml"
 
 - name: Deploy Knative Serving
   community.kubernetes.k8s:
@@ -30,14 +31,14 @@
     state: present
   loop:
       - name: serving-crds.yaml
-        manifest: "{{ lookup('file',knative_manifests_dir + '/serving-crds.yaml')}}"
+        manifest: "{{ lookup('file',knative_manifests_dir + '/serving-crds.yaml') }}"
       - name: serving-core.yaml
-        manifest: "{{ lookup('file',knative_manifests_dir + '/serving-core.yaml')}}"
+        manifest: "{{ lookup('file',knative_manifests_dir + '/serving-core.yaml') }}"
   loop_control:
-      label: "{{item.name}}"
+      label: "{{ item.name }}"
   # TODO: #3 Check why controllers are configured always and fix it
   changed_when: False
-  register: knative_serving_deploy  
+  register: knative_serving_deploy
 
 - name: "Wait for Knative Serving::activator"
   include_tasks: utils/k8s_deployment_status.yml
@@ -67,17 +68,17 @@
 - name: Deploy Knative Eventing
   community.kubernetes.k8s:
     definition: "{{ item.manifest | from_yaml_all | list }}"
-    state: present 
+    state: present
   loop:
       - name: eventing-crds.yaml
-        manifest: "{{ lookup('file',knative_manifests_dir + '/eventing-crds.yaml')}}"
+        manifest: "{{ lookup('file',knative_manifests_dir + '/eventing-crds.yaml') }}"
       - name: eventing.yaml
-        manifest: "{{ lookup('file',knative_manifests_dir + '/eventing.yaml')}}"
+        manifest: "{{ lookup('file',knative_manifests_dir + '/eventing.yaml') }}"
   loop_control:
-      label: "{{item.name}}"
+      label: "{{ item.name }}"
   # TODO: #3 Check why controllers are configured always and fix it
   changed_when: False
-  register: knative_eventing_deploy  
+  register: knative_eventing_deploy
 
 - name: "Wait for Knative Eventing::eventing-controller"
   include_tasks: utils/k8s_deployment_status.yml
@@ -127,10 +128,10 @@
     state: present
   loop:
       - name: kourier.yaml
-        manifest: "{{ lookup('file',knative_manifests_dir + '/kourier.yaml')}}"
+        manifest: "{{ lookup('file',knative_manifests_dir + '/kourier.yaml') }}"
   loop_control:
-      label: "{{item.name}}"
-  register: knative_serving_ing_deploy  
+      label: "{{ item.name }}"
+  register: knative_serving_ing_deploy
 
 - name: "Wait for Knative Kourier::3scale-kourier-control"
   include_tasks: utils/k8s_deployment_status.yml
@@ -164,35 +165,35 @@
     state: present
     namespace: knative-serving
     name: config-network
-    merge_type: 
+    merge_type:
      - merge
     definition:
       apiVersion: v1
       kind: ConfigMap
       metadata:
         name: config-network
-        namespace: knative-serving           
+        namespace: knative-serving
       data:
         ingress.class: "kourier.ingress.networking.knative.dev"
 
-- name: Configure Knative Serving domain 
+- name: Configure Knative Serving domain
   community.kubernetes.k8s:
     state: present
-    merge_type: 
+    merge_type:
      - merge
     definition:
       apiVersion: v1
       kind: ConfigMap
       metadata:
         name: config-domain
-        namespace: knative-serving       
+        namespace: knative-serving
       data:
         127.0.0.1.nip.io: ""
 
-- name: Configure Knative Serving registriesSkippingTagResolving for localhost
+- name: Configure Knative Serving TagResolving for localhost
   community.kubernetes.k8s:
     state: present
-    merge_type: 
+    merge_type:
      - merge
     definition:
       apiVersion: v1
