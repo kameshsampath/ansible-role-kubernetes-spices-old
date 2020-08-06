@@ -24,6 +24,5 @@ galaxy_info:
     - knative
     - tekton
     - contour
-dependencies:
-  - kameshsampath.minikube
-  - kameshsampath.kind
+
+dependencies: []
