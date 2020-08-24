@@ -1,7 +1,10 @@
 ---
+# Cluster details
+kubernetes_cluster_type: minikube
+
 #Ingress
 deploy_ingress: True
-ingress_namespace: contour-system
+ingress_namespace: projectcontour
 ingress_manifest: https://projectcontour.io/quickstart/contour.yaml
 
 #Knative 
@@ -14,3 +17,7 @@ knative_serving_version: v0.16.0
 deploy_tektoncd: False
 tektoncd_pipelines_version: v0.11.3
 tektoncd_triggers_version: v0.4.0
+
+#ArgoCD
+deploy_argocd: False
+argocd_namespace: argocd
