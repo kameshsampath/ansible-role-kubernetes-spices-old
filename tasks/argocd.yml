@@ -19,7 +19,7 @@
   delegate_to: localhost
   loop:
     - name: install.yaml
-      manifest_url: "https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml"
+      manifest_url: "https://raw.githubusercontent.com/argoproj/argo-cd/{{ argocd_version }}/manifests/install.yaml"
   loop_control:
      label: "{{ item.name }}"
 
@@ -99,3 +99,28 @@
 
 - debug: 
     msg: "Your Argo CD credentials Username 'admin' Password '{{ argcd_server_pods.resources[0].metadata.name }}'"
+
+- name: Download Argo CD CLI (macOS)
+  get_url:
+    url: "https://github.com/argoproj/argo-cd/releases/download/{{ argocd_version }}/argocd-darwin-amd64"
+    dest: /usr/local/bin/argocd
+    mode: 0755
+  when: ansible_os_family == "Darwin"
+
+- name: Download Argo CD CLI (Linux)
+  get_url:
+    url: "https://github.com/argoproj/argo-cd/releases/download/{{ argocd_version }}/argocd-linux-amd64"
+    dest: /usr/local/bin/argocd
+    mode: 0755
+  when: ansible_os_family == "RedHat" or ansible_os_family == "CentOS" or ansible_os_family == "Debian"
+
+- name: Download Argo CD CLI (Windows)
+  get_url:
+    url: "https://github.com/argoproj/argo-cd/releases/download/{{ argocd_version }}/argocd-windows-amd64.exe"
+    dest: /usr/local/bin/argocd
+  when: ansible_os_family == "Windows"
+
+- name: Make Argo CD CLI as executable
+  file:
+    path: /usr/local/bin/argocd
+    mode: 0755

@@ -48,6 +48,7 @@ __NOTE__: For Windows its recommended to use Windows Subsystem for Linux (WSL)
 | tektoncd_triggers_version | Tektoncd Triggers Version | v0.4.0 |
 | deploy_argocd | Deploy [Argo CD](https://argoproj.github.io/) | False |
 | argocd_namespace | Argo CD namespace | argocd |
+| argocd_version | Argo CD version to use | v1.6.2 |
 
 ## Example Playbooks
 
