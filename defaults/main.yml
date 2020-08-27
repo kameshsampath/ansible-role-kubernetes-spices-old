@@ -22,3 +22,4 @@ tektoncd_triggers_version: v0.4.0
 deploy_argocd: False
 argocd_namespace: argocd
 argocd_version: v1.6.2
+argocd_cli_download: True

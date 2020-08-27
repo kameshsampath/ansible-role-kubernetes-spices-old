@@ -105,22 +105,23 @@
     url: "https://github.com/argoproj/argo-cd/releases/download/{{ argocd_version }}/argocd-darwin-amd64"
     dest: /usr/local/bin/argocd
     mode: 0755
-  when: ansible_os_family == "Darwin"
+  when: ansible_os_family == "Darwin" and argocd_cli_download
 
 - name: Download Argo CD CLI (Linux)
   get_url:
     url: "https://github.com/argoproj/argo-cd/releases/download/{{ argocd_version }}/argocd-linux-amd64"
     dest: /usr/local/bin/argocd
     mode: 0755
-  when: ansible_os_family == "RedHat" or ansible_os_family == "CentOS" or ansible_os_family == "Debian"
+  when: ansible_os_family == "RedHat" or ansible_os_family == "CentOS" or ansible_os_family == "Debian" and argocd_cli_download
 
 - name: Download Argo CD CLI (Windows)
   get_url:
     url: "https://github.com/argoproj/argo-cd/releases/download/{{ argocd_version }}/argocd-windows-amd64.exe"
     dest: /usr/local/bin/argocd
-  when: ansible_os_family == "Windows"
+  when: ansible_os_family == "Windows" and argocd_cli_download
 
 - name: Make Argo CD CLI as executable
   file:
     path: /usr/local/bin/argocd
     mode: 0755
+  when: argocd_cli_download
