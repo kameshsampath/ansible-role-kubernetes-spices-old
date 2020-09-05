@@ -98,6 +98,9 @@
   register: argcd_server_pods
 
 - debug: 
+    msg: 'Argo CD Server Address {{ "{{ k8s_cluster_ip }}.nip.io" }} '
+    
+- debug: 
     msg: "Your Argo CD credentials Username 'admin' Password '{{ argcd_server_pods.resources[0].metadata.name }}'"
 
 - name: Download Argo CD CLI (macOS)
