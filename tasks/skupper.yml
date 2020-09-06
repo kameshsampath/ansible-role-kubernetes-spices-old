@@ -1,0 +1,70 @@
+---
+- name: Connect to LoadBalancer Services in minikube
+  command:
+    argv:
+      - minikube
+      - -p
+      - "{{ minikube_profile_name }}"
+      - tunnel
+  # runs for a day
+  async: 86400
+  poll: 0
+  when: kubernetes_cluster_type == 'minikube'
+  register: minikube_tunnel_request
+       
+- name: Create Skupper Namespace
+  community.kubernetes.k8s:
+    state: present
+    kind: Namespace
+    name: "{{ skupper_namespace }}"
+
+- name: Create Skupper Site Controller SA
+  community.kubernetes.k8s:
+     state: present
+     namespace: "{{ skupper_namespace }}"
+     definition:
+      apiVersion: v1
+      kind: ServiceAccount
+      metadata:
+        name: skupper-site-controller
+        labels:
+          application: skupper-site-controller
+
+- name: Create Skupper Site Controller RBAC
+  community.kubernetes.k8s:
+     state: present
+     namespace: "{{ skupper_namespace }}"
+     definition: "{{ item }}"
+  loop: "{{ lookup('template','skupper-site-controller-rbac.yaml.j2') | from_yaml_all | list }}"
+  loop_control:
+      label: "{{ [item.kind,item.metadata.name] | join('-') }}"
+
+- name: Create Skupper Site Controller
+  community.kubernetes.k8s:
+     state: present
+     namespace: "{{ skupper_namespace }}"
+     definition: "{{ lookup('template','skupper-site-controller.yaml.j2') | from_yaml }}"
+
+- name: "Wait for Skupper::site-controller"
+  include_tasks: utils/k8s_deployment_status.yml
+  vars:
+    deployment_name: skupper-site-controller
+    deployment_namespace: "{{ skupper_namespace }}"
+
+- name: Create Skupper Site
+  community.kubernetes.k8s:
+     state: present
+     namespace: "{{ skupper_namespace }}"
+     definition: "{{ lookup('template','skupper-site.yaml.j2') | from_yaml }}"
+
+- name: "Wait for Skupper::skupper-router"
+  include_tasks: utils/k8s_deployment_status.yml
+  vars:
+    deployment_name: skupper-router
+    deployment_namespace: "{{ skupper_namespace }}"
+
+- name: "Wait for Skupper::skupper-service-controller"
+  include_tasks: utils/k8s_deployment_status.yml
+  vars:
+    deployment_name: skupper-service-controller
+    deployment_namespace: "{{ skupper_namespace }}"

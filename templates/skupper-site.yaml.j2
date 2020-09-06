@@ -1,0 +1,17 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+   name: skupper-site
+   namespace: {{ skupper_namespace }}
+data:
+  cluster-local: "{{ skuper_cluster_local }}"
+  console: "{{ skupper_console_enable }}"
+  console-authentication: "{{ skupper_console_authentication }}"
+  console-password: "{{ skupper_console_password }}"
+  console-user: "{{ skupper_console_user }}"
+  edge: "{{ skupper_site_edge }}"
+  name: "{{ skupper_site_name }}"
+  router-console: "{{ skupper_router_console_enable }}"
+  service-controller: "true"
+  service-sync: "true"

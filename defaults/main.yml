@@ -23,3 +23,17 @@ deploy_argocd: False
 argocd_namespace: argocd
 argocd_version: v1.6.2
 argocd_cli_download: True
+
+# Skupper
+deploy_skupper: True
+skupper_namespace: default
+skupper_cli_download: True
+skupper_site_name: mysite
+skupper_site_edge: false
+skupper_console_enable: true
+skupper_router_console_enable: true
+skuper_cluster_local: false
+skupper_console_authentication: unsecured
+skupper_console_password: skupp3r!
+skupper_console_user: skupper
+

@@ -1,10 +1,10 @@
 # Ansible role for Spicing Kubernetes Cluster with Apps
 
-Ansible to create [KinD](https://kind.sigs.k8s.io)  or [minikube](https://minikube.sigs.k8s.io) cluster. 
+Ansible to create [KinD](https://kind.sigs.k8s.io)  or [minikube](https://minikube.sigs.k8s.io) cluster.
 
 The role can also be used to install and configure:
 
-- [x] Default [Ingress](https://kind.sigs.k8s.io/docs/user/ingress/#contour) 
+- [x] Default [Ingress](https://kind.sigs.k8s.io/docs/user/ingress/#contour)
 
 - [x] [Knative](https://knative.dev), both Serving and Eventing
 
@@ -49,6 +49,17 @@ __NOTE__: For Windows its recommended to use Windows Subsystem for Linux (WSL)
 | deploy_argocd | Deploy [Argo CD](https://argoproj.github.io/) | False |
 | argocd_namespace | Argo CD namespace | argocd |
 | argocd_version | Argo CD version to use | v1.6.2 |
+| deploy_skupper | Deploy [](skupperhttps://skupper.io) | False |
+| skupper_namespace | Namespace to deploy skupper | default |
+| skupper_cli_download | Download Skupper CLI | True |
+| skupper_site_name | Name of the Skupper site to create | mysite |
+| skupper_site_edge | Is this a skupper edge site | False |
+| skupper_console_enable | Enable Skupper Console | true |
+| skupper_router_console_enable | Enable Skupper router Console | true |
+| skuper_cluster_local | Is Skupper local to cluster | false |
+| skupper_console_authentication | Skupper Console Authentication | unsecured |
+| skupper_console_password | Skupper Console User password | skupp3r! |
+| skupper_console_user | Skupper Console User | skupper |
 
 ## Example Playbooks
 
