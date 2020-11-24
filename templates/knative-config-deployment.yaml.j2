@@ -5,4 +5,4 @@ metadata:
   name: config-deployment
   namespace: knative-serving
 data:
-  registriesSkippingTagResolving: "ko.local,dev.local,localhost:5000"
+  registriesSkippingTagResolving: "{{ registries_skip_tag_resolving | join(',') }}"

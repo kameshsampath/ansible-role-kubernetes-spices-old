@@ -9,9 +9,17 @@ ingress_manifest: https://projectcontour.io/quickstart/contour.yaml
 
 #Knative 
 deploy_knative: False
-knative_version: v0.16.0
-knative_eventing_version: v0.16.0
-knative_serving_version: v0.16.0
+knative_version: v0.19.0
+knative_eventing_version: v0.19.0
+knative_serving_version: v0.19.0
+registries_skip_tag_resolving:
+ - example.com
+ - example.org
+ - test.com
+ - test.org
+ - ko.local
+ - dev.local
+ - "localhost:5000"
 
 #Tektoncd
 deploy_tektoncd: False
