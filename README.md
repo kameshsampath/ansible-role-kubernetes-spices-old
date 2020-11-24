@@ -79,8 +79,6 @@ The [examples](https://github.com/kameshsampath/kameshsampath.k8s_app_spices/tre
 
 ## Testing
 
-## Requirements
-
 - Extra Python modules
 
 ```shell
