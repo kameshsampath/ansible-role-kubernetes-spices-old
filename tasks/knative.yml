@@ -137,7 +137,7 @@
   include_tasks: utils/k8s_deployment_status.yml
   vars:
     deployment_name: 3scale-kourier-control
-    deployment_namespace: kourier-system
+    deployment_namespace: knative-serving
 
 - name: "Wait for Knative Kourier::3scale-kourier-gateway"
   include_tasks: utils/k8s_deployment_status.yml

@@ -1,6 +1,6 @@
 ---
 # Cluster details
-kubernetes_cluster_type: minikube
+kubernetes_cluster_type: kind
 
 #Ingress
 deploy_ingress: True
@@ -33,7 +33,7 @@ argocd_version: v1.6.2
 argocd_cli_download: True
 
 # Skupper
-deploy_skupper: True
+deploy_skupper: False
 skupper_namespace: default
 skupper_cli_download: True
 skupper_site_name: mysite
