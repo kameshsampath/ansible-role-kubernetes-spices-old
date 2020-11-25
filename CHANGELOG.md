@@ -1,5 +1,12 @@
 # Changelog
 
+### [0.1.1](https://www.github.com/kameshsampath/ansible-role-kubernetes-spices/compare/v0.1.0...v0.1.1) (2020-11-25)
+
+
+### Bug Fixes
+
+*  remove minikube default and update kouier watch ([a3efd74](https://www.github.com/kameshsampath/ansible-role-kubernetes-spices/commit/a3efd74038fd1d9b48a56103a1bfd80b56e63c82))
+
 ## [0.1.0](https://www.github.com/kameshsampath/ansible-role-kubernetes-spices/compare/v0.0.0...v0.1.0) (2020-11-24)
 
 
